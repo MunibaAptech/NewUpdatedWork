@@ -1,0 +1,62 @@
+﻿@model IEnumerable<RegistrationForm.tbl_UserRegistration>
+@{
+    ViewBag.Title = "ListView";
+}
+
+<h2>ListView</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Registration")
+</p>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr class= "btn-primary">
+            <th>@Html.DisplayNameFor(model => model.UserId)</th>
+            <th>@Html.DisplayNameFor(model => model.UserName)</th>
+            <th>@Html.DisplayNameFor(model => model.Email)</th>
+            <th>@Html.DisplayNameFor(model => model.Password)</th>
+            <th>@Html.DisplayNameFor(model => model.Gender)</th>
+            <th>@Html.DisplayNameFor(model => model.CSharp)</th>
+            <th>@Html.DisplayNameFor(model => model.Java)</th>
+            <th>@Html.DisplayNameFor(model => model.Python)</th>
+            <th>@Html.DisplayNameFor(model => model.CityId)</th>
+            <th>@Html.DisplayNameFor(model => model.Date)</th>
+            <th>@Html.DisplayNameFor(model => model.Image)</th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.UserId</td>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>@item.Password</td>
+                <td>@item.Gender</td>
+                <td>@item.CSharp</td>
+                <td>@item.Java</td>
+                <td>@item.Python</td>
+                <td>@item.CityId</td>
+                <td>@item.Date</td>
+                <td>
+                    <img src= "../Images/@item.Image" width="50px" height="50px"/>
+                </td>
+                
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UserId },htmlAttributes:new {@class = "btn btn-primary"}) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.UserId }, htmlAttributes: new { @class = "btn btn-danger" }) |
+                </td>
+                
+            </tr>
+        }
+
+    </tbody>
+</table>
+

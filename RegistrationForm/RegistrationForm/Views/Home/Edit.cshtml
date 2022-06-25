@@ -1,0 +1,178 @@
+﻿@model tbl_UserRegistration
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<head>
+
+
+    <link href="~/ApplyStyling/Style.css" rel="stylesheet" />
+    <link href="~/ApplyStyling/ProfileStyleSheet.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".datepicker").datepicker();
+
+            $("#UserImage").click(function () {
+                $("#BrowseImage").trigger('click')
+            })
+
+            $(".upload-photo").click(function () {
+                $("#BrowseImage").trigger('click')
+            })
+
+            $("#BrowseImage").change(function () {
+
+                if (this.files && this.files[0]) { //img1.jpg img2.jpg
+                    var fileReader = new FileReader();
+                    fileReader.readAsDataURL(this.files[0]);
+
+                    fileReader.onload = function (x) {
+                        $("#UserImage").attr('src', x.target.result);
+                    }
+                }
+            })
+
+
+
+            $(".remove-photo").click(function () {
+                $("#UserImage").attr('src', "~/Images/No_Image_Available.jpg");
+            })
+
+
+
+
+        });
+    </script>
+</head>
+
+<body>
+    <div id="RegistrationFormLayout">
+
+        <div class="row">
+
+            <div class="col-lg-6 col-md-12" id="registrationForm">
+
+                @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+                {
+
+                    <h3>Registration Form</h3>
+
+                    <form class="form-horizontal">
+
+                        <div class="form-group">
+
+                            @Html.HiddenFor(model => model.UserId);
+                            @Html.HiddenFor(model => model.Image);
+
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-user-plus"></i></span>
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+
+
+                                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+
+                            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-10">
+
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(model => model.Gender, "Male", htmlAttributes: new { @name = "Gender" })Male
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(model => model.Gender, "Female", htmlAttributes: new { @name = "Gender" })Female
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">City</label>
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.CityId, ViewBag.City as SelectList, "---Select City---", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    </form>
+                }
+
+
+
+            </div>
+
+            <div class="col-lg-6 col-md-12" id="registrationImage">
+                <div class="user-profile-image">
+
+                    <input type="file" class="visually-hidden" id="BrowseImage" name="uploadImg">
+
+
+                    <img src="@Url.Content(Model.Image)" class="img-responsive" id="UserImage" width="200px" height="150px" />
+
+                    <div class="upload-photo">
+                        <button class="btn btn-primary">Upload Image</button>
+                    </div>
+                    <div class="remove-photo">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</body>
